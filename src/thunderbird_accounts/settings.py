@@ -53,6 +53,7 @@ FXA_CALLBACK: str = os.getenv('FXA_CALLBACK')
 FXA_OAUTH_SERVER_URL: str = os.getenv('FXA_OAUTH_SERVER_URL')
 FXA_PROFILE_SERVER_URL: str = os.getenv('FXA_PROFILE_SERVER_URL')
 FXA_ENCRYPT_SECRET: bytes = os.getenv('FXA_ENCRYPT_SECRET', '').encode()
+FXA_ALLOW_LIST: str = os.getenv('FXA_ALLOW_LIST')
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -262,3 +263,8 @@ CONNECTION_INFO = {
         'TLS': os.getenv('JMAP_TLS')
     }
 }
+
+ALLOWED_EMAIL_DOMAINS = [
+    'tb.pro',
+    'tbpro.com'
+]
