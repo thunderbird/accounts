@@ -70,7 +70,7 @@ resources:
       health_check_grace_period_seconds: 30 # Time before the LB checks for health of a new backend
       internal: False # This needs to be open to receive auth callbacks
       services:
-        send-suite:
+        accounts:
           listener_port: 443
           listener_proto: HTTPS
           listener_cert_arn: arn:aws:acm:eu-central-1:768512802988:certificate/2de484a6-2f6c-492e-a073-c62f4b28e38a
@@ -89,7 +89,7 @@ resources:
         requires_compatibilities:
           - FARGATE
         container_definitions:
-          backend:
+          accounts:
             image: 768512802988.dkr.ecr.eu-central-1.amazonaws.com/thunderbird/accounts:jungtest0
             portMappings:
               - name: accounts

@@ -29,17 +29,15 @@ sg_lb = tb_pulumi.network.SecurityGroupWithRules(
 pulumi_sm_opts = resources['tb:secrets:PulumiSecretsManager']['pulumi']
 pulumi_sm = tb_pulumi.secrets.PulumiSecretsManager(f'{project.name_prefix}-secrets', project, **pulumi_sm_opts)
 
-
-# sg_container = sg_lb.resources['sg'].id.apply(lambda sg_id: build_container_sg(sg_id))
-
 # Build a security group allowing access from the load balancer to the container when we know its ID
 opts = resources['tb:network:SecurityGroupWithRules']['accounts-container']
+opts['rules']['ingress'][0]['source_security_group_id'] = sg_lb.resources['sg'].id
 sg_container = tb_pulumi.network.SecurityGroupWithRules(
-        name=f'{project.name_prefix}-container-sg',
-        project=project,
-        vpc_id=vpc.resources['vpc'].id,
-        opts=pulumi.ResourceOptions(depends_on=[sg_lb, vpc]),
-        **opts,
+    name=f'{project.name_prefix}-container-sg',
+    project=project,
+    vpc_id=vpc.resources['vpc'].id,
+    opts=pulumi.ResourceOptions(depends_on=[sg_lb, vpc]),
+    **opts,
 )
 
 # Build a Fargate cluster to run our containers
