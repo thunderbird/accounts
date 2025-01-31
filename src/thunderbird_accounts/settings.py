@@ -53,6 +53,7 @@ FXA_CALLBACK: str = os.getenv('FXA_CALLBACK')
 FXA_OAUTH_SERVER_URL: str = os.getenv('FXA_OAUTH_SERVER_URL')
 FXA_PROFILE_SERVER_URL: str = os.getenv('FXA_PROFILE_SERVER_URL')
 FXA_ENCRYPT_SECRET: bytes = os.getenv('FXA_ENCRYPT_SECRET', '').encode()
+FXA_ALLOW_LIST: str = os.getenv('FXA_ALLOW_LIST')
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -154,6 +155,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+]
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -239,3 +245,26 @@ ALLOWED_HOSTS_CACHE_KEY = '__ALLOWED_HOSTS'
 USE_X_FORWARDED_HOST = True
 
 DJANGO_VITE = {'default': {'dev_mode': DEBUG}}
+
+CONNECTION_INFO = {
+    'IMAP': {
+        'HOST': os.getenv('IMAP_HOST'),
+        'PORT': os.getenv('IMAP_PORT'),
+        'TLS': os.getenv('IMAP_TLS')
+    },
+    'JMAP': {
+        'HOST': os.getenv('JMAP_HOST'),
+        'PORT': os.getenv('JMAP_PORT'),
+        'TLS': os.getenv('JMAP_TLS')
+    },
+    'SMTP': {
+        'HOST': os.getenv('JMAP_HOST'),
+        'PORT': os.getenv('JMAP_PORT'),
+        'TLS': os.getenv('JMAP_TLS')
+    }
+}
+
+ALLOWED_EMAIL_DOMAINS = [
+    'tb.pro',
+    'tbpro.com'
+]
