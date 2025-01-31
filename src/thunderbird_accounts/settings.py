@@ -54,11 +54,11 @@ FXA_OAUTH_SERVER_URL: str = os.getenv('FXA_OAUTH_SERVER_URL')
 FXA_PROFILE_SERVER_URL: str = os.getenv('FXA_PROFILE_SERVER_URL')
 FXA_ENCRYPT_SECRET: bytes = os.getenv('FXA_ENCRYPT_SECRET', '').encode()
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [host for host in os.getenv('ALLOWED_HOSTS', '').split(',') if host]
 
 # For local docker usage
 if DEBUG:
-    ALLOWED_HOSTS += ['accounts']
+    ALLOWED_HOSTS += ['localhost', 'accounts']
 
 # Application definition
 

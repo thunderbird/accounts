@@ -2,6 +2,7 @@
 
 import pulumi
 import tb_pulumi
+import tb_pulumi.ec2
 import tb_pulumi.fargate
 import tb_pulumi.network
 import tb_pulumi.secrets
@@ -50,4 +51,14 @@ fargate = tb_pulumi.fargate.FargateClusterWithLogging(
     load_balancer_security_groups=[sg_lb.resources['sg'].id],
     opts=pulumi.ResourceOptions(depends_on=[sg_lb, sg_container, vpc]),
     **fargate_opts,
+)
+
+jumphost_opts = resources['tb:ec2:SshableInstance']['jumphost']
+jumphost = tb_pulumi.ec2.SshableInstance(
+    name=f'{project.name_prefix}-jumphost',
+    project=project,
+    subnet_id=vpc.resources['subnets'][0],
+    vpc_id=vpc.resources['vpc'].id,
+    opts=pulumi.ResourceOptions(depends_on=[vpc]),
+    **jumphost_opts,
 )
